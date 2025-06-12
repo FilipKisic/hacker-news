@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hacker_news_app/ui/home/screen/home_screen.dart';
+import 'package:hacker_news_app/ui/core/ui/screen/home_screen.dart';
 
 class AppRouter {
   static const homeScreen = '/';

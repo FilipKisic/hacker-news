@@ -1,0 +1,8 @@
+targets:
+  $default:
+    builders:
+      source_gen:combining_builder:
+        options:
+          build_extensions:
+            '^lib/data/api/{{file}}.dart': 'lib/utils/generated/api/{{file}}.g.dart'
+            '^lib/data/model/{{file}}.dart': 'lib/utils/generated/model/{{file}}.g.dart'

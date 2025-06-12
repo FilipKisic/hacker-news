@@ -9,12 +9,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  retrofit: ^4.4.2
+  json_annotation: ^4.9.0
+  dio: ^5.8.0+1
+  hugeicons: ^0.0.11
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
   flutter_launcher_icons: ^0.14.3
+  json_serializable: ^6.9.5
+  retrofit_generator: ^9.2.0
+  build_runner: ^2.4.15
 
 flutter:
   uses-material-design: true
@@ -37,6 +45,10 @@ flutter:
           weight: 300
     - family: Doto
       fonts:
+        - asset: assets/fonts/Doto/Doto_Rounded-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Doto/Doto_Rounded-ExtraBold.ttf
+          weight: 800
         - asset: assets/fonts/Doto/Doto_Rounded-Bold.ttf
           weight: 700
         - asset: assets/fonts/Doto/Doto_Rounded-SemiBold.ttf

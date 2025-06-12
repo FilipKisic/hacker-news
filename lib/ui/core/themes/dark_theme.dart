@@ -5,14 +5,20 @@ final darkTheme = ThemeData(
   fontFamily: 'ChakraPetch',
   scaffoldBackgroundColor: backgroundColorDark,
   shadowColor: shadowColorDark,
-  splashColor: primaryColorDark.withAlpha(45),
-  highlightColor: primaryColorDark.withAlpha(60),
+  splashColor: accentColorDark.withAlpha(45),
+  highlightColor: accentColorDark.withAlpha(60),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: backgroundColorDark,
+    selectedItemColor: accentColorDark,
+    unselectedItemColor: textSecondaryColorDark,
+  ),
   extensions: const [
     AppColors(
       backgroundColor: backgroundColorDark,
       primaryColor: primaryColorDark,
       accentColor: accentColorDark,
       textColor: textColorDark,
+      textSecondaryColor: textSecondaryColorDark,
       errorColor: errorColorDark,
       shadowColor: shadowColorDark,
     ),
