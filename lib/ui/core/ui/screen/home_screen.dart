@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hacker_news_app/ui/animated_story_card.dart';
 import 'package:hacker_news_app/ui/asks/screen/ask_list_screen.dart';
 import 'package:hacker_news_app/ui/core/styles/style_extensions.dart';
 import 'package:hacker_news_app/ui/jobs/screen/job_list_screen.dart';
 import 'package:hacker_news_app/ui/shows/screen/show_list_screen.dart';
-//import 'package:hacker_news_app/ui/stories/screen/story_list_screen.dart';
+import 'package:hacker_news_app/ui/stories/screen/story_list_screen.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,9 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedNews,
-              color: _selectedScreenIndex == 0
-                  ? context.colorAccent
-                  : context.colorTextSecondary,
+              color: _selectedScreenIndex == 0 ? context.colorAccent : context.colorTextSecondary,
               size: 28,
             ),
             label: 'Stories',
@@ -54,9 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedBubbleChatQuestion,
-              color: _selectedScreenIndex == 1
-                  ? context.colorAccent
-                  : context.colorTextSecondary,
+              color: _selectedScreenIndex == 1 ? context.colorAccent : context.colorTextSecondary,
               size: 28,
             ),
             label: 'Ask',
@@ -64,9 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedMessagePreview02,
-              color: _selectedScreenIndex == 2
-                  ? context.colorAccent
-                  : context.colorTextSecondary,
+              color: _selectedScreenIndex == 2 ? context.colorAccent : context.colorTextSecondary,
               size: 28,
             ),
             label: 'Show',
@@ -74,9 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedWork,
-              color: _selectedScreenIndex == 3
-                  ? context.colorAccent
-                  : context.colorTextSecondary,
+              color: _selectedScreenIndex == 3 ? context.colorAccent : context.colorTextSecondary,
               size: 28,
             ),
             label: 'Job',
@@ -86,6 +77,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _onScreenSelect(final int index) =>
-      setState(() => _selectedScreenIndex = index);
+  void _onScreenSelect(final int index) => setState(() => _selectedScreenIndex = index);
 }
