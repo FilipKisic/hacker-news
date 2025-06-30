@@ -9,13 +9,15 @@ part of '../../../data/api/news_api_client.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations
 
 class _NewsApiClient implements NewsApiClient {
-  _NewsApiClient(this._dio, {this.baseUrl}) {
+  _NewsApiClient(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'https://hacker-news.firebaseio.com/v0';
   }
 
   final Dio _dio;
 
   String? baseUrl;
+
+  final ParseErrorLogger? errorLogger;
 
   @override
   Future<List<int>> getTopStories() async {
@@ -37,7 +39,8 @@ class _NewsApiClient implements NewsApiClient {
     late List<int> _value;
     try {
       _value = _result.data!.cast<int>();
-    } on Object {
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
       rethrow;
     }
     return _value;
@@ -63,7 +66,8 @@ class _NewsApiClient implements NewsApiClient {
     late StoryDto _value;
     try {
       _value = StoryDto.fromJson(_result.data!);
-    } on Object {
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
       rethrow;
     }
     return _value;

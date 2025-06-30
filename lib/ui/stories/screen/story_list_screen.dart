@@ -1,84 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news_app/domain/entity/story.dart';
+import 'package:hacker_news_app/ui/core/styles/style_extensions.dart';
+import 'package:hacker_news_app/ui/stories/view_model/state/story_list_state.dart';
+import 'package:hacker_news_app/ui/stories/view_model/story_list_view_model.dart';
 import 'package:hacker_news_app/ui/stories/widgets/story_card.dart';
+import 'package:provider/provider.dart';
 
-class StoryListScreen extends StatefulWidget {
+class StoryListScreen extends StatelessWidget {
   const StoryListScreen({super.key});
 
   @override
-  State<StoryListScreen> createState() => _StoryListScreenState();
-}
-
-class _StoryListScreenState extends State<StoryListScreen> {
-  @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<StoryListViewModel>(context);
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            StoryCard(
-              story: Story(
-                id: 1,
-                title: 'title',
-                createdAt: DateTime.now(),
-                createdBy: 'createdBy',
-                score: 2,
-                commentCount: 1,
-                listOfComments: [],
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: ListenableBuilder(
+          listenable: viewModel,
+          builder: (context, _) {
+            return switch (viewModel.state) {
+              StoryListLoading() => Center(
+                child: CircularProgressIndicator.adaptive(backgroundColor: context.colorPrimary),
               ),
-            ),
-            const SizedBox(height: 20),
-            StoryCard(
-              story: Story(
-                id: 1,
-                title: 'title',
-                createdAt: DateTime.now(),
-                createdBy: 'createdBy',
-                score: 2,
-                commentCount: 1,
-                listOfComments: [],
+              StoryListSuccess(storyList: final result) ||
+              StoryListLoadingMore(storyList: final result) => StoryList(
+                storyList: result,
+                viewModel: viewModel,
               ),
-            ),
-          ],
+              StoryListError() => Text("There was an error"),
+              StoryListLoadingMoreError() => Text("Error while loading more..."),
+            };
+          },
         ),
       ),
     );
   }
 }
 
-// @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Padding(
-//         padding: const EdgeInsets.all(20.0),
-//         child: Column(
-//           children: [
-//             StoryCard(
-//               story: Story(
-//                 id: 1,
-//                 title: 'title',
-//                 createdAt: DateTime.now(),
-//                 createdBy: 'createdBy',
-//                 score: 2,
-//                 commentCount: 1,
-//                 listOfComments: [],
-//               ),
-//             ),
-//             const SizedBox(height: 20),
-//             StoryCard(
-//               story: Story(
-//                 id: 1,
-//                 title: 'title',
-//                 createdAt: DateTime.now(),
-//                 createdBy: 'createdBy',
-//                 score: 2,
-//                 commentCount: 1,
-//                 listOfComments: [],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
+class StoryList extends StatelessWidget {
+  final List<Story> storyList;
+  final StoryListViewModel viewModel;
+
+  const StoryList({
+    super.key,
+    required this.storyList,
+    required this.viewModel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      itemCount: storyList.length,
+      separatorBuilder: (context, index) => const SizedBox(height: 20),
+      itemBuilder: (_, index) {
+        if (index == storyList.length - 1 && viewModel.state is StoryListLoadingMore) {
+          return CircularProgressIndicator.adaptive(backgroundColor: context.colorPrimary);
+        }
+        if (index == storyList.length - 1 &&
+            viewModel.hasMore &&
+            viewModel.state is! StoryListLoadingMore) {
+          WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.loadTopStories());
+        }
+        return StoryCard(story: storyList[index]);
+      },
+    );
+  }
+}

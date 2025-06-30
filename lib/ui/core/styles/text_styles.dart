@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 
 // core
 const _standard = TextStyle(fontSize: 16, fontFamily: 'ChakraPetch');
-const _appBarTitle = TextStyle(fontSize: 24, fontFamily: 'Doto', fontWeight: FontWeight.w700);
-const _title = TextStyle(fontSize: 18, fontFamily: 'Doto', fontWeight: FontWeight.w800);
+const _appBarTitle = TextStyle(
+  fontSize: 24,
+  fontFamily: 'Doto',
+  fontWeight: FontWeight.w700,
+);
+const _title = TextStyle(
+  fontSize: 18,
+  fontFamily: 'Doto',
+  fontWeight: FontWeight.w800,
+);
 
 // story card
 const _cardAuthor = TextStyle(fontSize: 14, fontFamily: 'ChakraPetch');

@@ -29,7 +29,6 @@ final class StoryRepositoryImpl implements StoryRepository {
           .map((storyId) async => _newsApi.getStoryById(storyId))
           .wait;
       final storyList = storyDtoList.map((dto) => dto.toDomain()).toList();
-
       return Result.ok(storyList);
     } catch (e) {
       return Result.error(NetworkException(e.toString()));
@@ -46,5 +45,5 @@ final class StoryRepositoryImpl implements StoryRepository {
   }
 
   @override
-  bool hasMoreStories(final int currentPage) => currentPage * _pageSize <  _topStories.length;
+  bool hasMoreStories(final int currentPage) => currentPage * _pageSize < _topStories.length;
 }

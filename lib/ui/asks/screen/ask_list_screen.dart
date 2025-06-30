@@ -9,7 +9,9 @@ class AskListScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20),
       child: SafeArea(
-        child: Center(child: Icon(Icons.quiz_rounded, size: 120, color: context.colorText)),
+        child: Center(
+          child: Icon(Icons.quiz_rounded, size: 120, color: context.colorText),
+        ),
       ),
     );
   }

@@ -8,7 +8,7 @@ sealed class Result<T> {
 
 final class Ok<T> extends Result<T> {
   final T value;
-  
+
   const Ok(this.value);
 }
 

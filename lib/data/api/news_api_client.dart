@@ -6,7 +6,6 @@ part '../../utils/generated/api/news_api_client.g.dart';
 
 @RestApi(baseUrl: "https://hacker-news.firebaseio.com/v0")
 abstract class NewsApiClient {
-
   factory NewsApiClient(final Dio dio, {String? baseUrl}) = _NewsApiClient;
 
   @GET('/topstories.json')

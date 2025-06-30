@@ -44,21 +44,23 @@ class AppColors extends ThemeExtension<AppColors> {
     final Color? accentColor,
     final Color? textColor,
     final Color? textSecondaryColor,
-    final Color? errorColor, 
-    final Color? shadowColor, 
-  }) =>
-      AppColors(
-        backgroundColor: backgroundColor ?? this.backgroundColor,
-        primaryColor: primaryColor ?? this.primaryColor,
-        accentColor: accentColor ?? this.accentColor,
-        textColor: textColor ?? this.textColor,
-        textSecondaryColor: textSecondaryColor ?? this.textSecondaryColor,
-        errorColor: errorColor ?? this.errorColor,
-        shadowColor: shadowColor ?? this.shadowColor,
-      );
+    final Color? errorColor,
+    final Color? shadowColor,
+  }) => AppColors(
+    backgroundColor: backgroundColor ?? this.backgroundColor,
+    primaryColor: primaryColor ?? this.primaryColor,
+    accentColor: accentColor ?? this.accentColor,
+    textColor: textColor ?? this.textColor,
+    textSecondaryColor: textSecondaryColor ?? this.textSecondaryColor,
+    errorColor: errorColor ?? this.errorColor,
+    shadowColor: shadowColor ?? this.shadowColor,
+  );
 
   @override
-  ThemeExtension<AppColors> lerp(covariant ThemeExtension<AppColors>? other, double t) {
+  ThemeExtension<AppColors> lerp(
+    covariant ThemeExtension<AppColors>? other,
+    double t,
+  ) {
     if (other is! AppColors) {
       return this;
     }
@@ -68,7 +70,11 @@ class AppColors extends ThemeExtension<AppColors> {
       primaryColor: Color.lerp(primaryColor, other.primaryColor, t),
       accentColor: Color.lerp(accentColor, other.accentColor, t),
       textColor: Color.lerp(textColor, other.textColor, t),
-      textSecondaryColor: Color.lerp(textSecondaryColor, other.textSecondaryColor, t),
+      textSecondaryColor: Color.lerp(
+        textSecondaryColor,
+        other.textSecondaryColor,
+        t,
+      ),
       errorColor: Color.lerp(errorColor, other.errorColor, t),
       shadowColor: Color.lerp(shadowColor, other.shadowColor, t),
     );

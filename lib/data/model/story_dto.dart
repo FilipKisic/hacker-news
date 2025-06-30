@@ -6,9 +6,9 @@ part '../../utils/generated/model/story_dto.g.dart';
 @JsonSerializable()
 class StoryDto {
   final String by;
-  final int descendants;
+  final int? descendants;
   final int id;
-  final List<int> kids;
+  final List<int>? kids;
   final int score;
   final String? text;
   final int time;
@@ -27,7 +27,8 @@ class StoryDto {
     this.url,
   });
 
-  factory StoryDto.fromJson(Map<String, dynamic> json) => _$StoryDtoFromJson(json);
+  factory StoryDto.fromJson(Map<String, dynamic> json) =>
+      _$StoryDtoFromJson(json);
 
   Story toDomain() {
     return Story(
@@ -36,8 +37,8 @@ class StoryDto {
       createdAt: DateTime.fromMillisecondsSinceEpoch(time * 1000),
       createdBy: by,
       score: score,
-      commentCount: descendants,
-      listOfComments: kids,
+      commentCount: descendants ?? 0,
+      listOfComments: kids ?? [],
       text: text,
       url: url,
     );

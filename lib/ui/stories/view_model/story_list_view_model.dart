@@ -6,35 +6,46 @@ import 'package:hacker_news_app/ui/stories/view_model/state/story_list_state.dar
 
 final class StoryListViewModel extends ChangeNotifier {
   final StoryRepository storyRepository;
+  late StoryListState state;
 
   StoryListViewModel({required this.storyRepository}) {
-    _loadTopStories();
+    state = StoryListLoading();
+    loadTopStories();
   }
 
-  late StoryListState _state;
-  StoryListState get state => _state;
+  List<Story> storyList = [];
 
-  Future<void> _loadTopStories() async {
-    if (_state.isLoading || !_state.hasMore) return;
+  int currentPage = 0;
+  bool hasMore = true;
 
-    _state.isLoading = true;
+  String errorMessage = '';
+
+  Future<void> loadTopStories() async {
+    if (state is StoryListLoadingMore || !hasMore) return;
+
+    state = storyList.isEmpty ? StoryListLoading() : StoryListLoadingMore(storyList);
     notifyListeners();
 
-    final result = await storyRepository.getTopStories(_state.currentPage);
+    final result = await storyRepository.getTopStories(currentPage);
 
     switch (result) {
       case Ok<List<Story>>():
         if (result.value.isEmpty) {
-          _state.hasMore = false;
+          hasMore = false;
         } else {
-          _state.storyList.addAll(result.value);
-          _state.currentPage++;
-          _state.hasMore = storyRepository.hasMoreStories(_state.currentPage);
+          storyList.addAll(result.value);
+          currentPage++;
+          hasMore = storyRepository.hasMoreStories(currentPage);
         }
+        state = StoryListSuccess(storyList);
       case Error<List<Story>>():
-        _state.storyList = [];
-        _state.errorMessage = result.error.toString();
+        final errorMessage = result.error.toString();
+        state = storyList.isEmpty
+            ? StoryListError(errorMessage)
+            : StoryListLoadingMoreError(errorMessage);
     }
     notifyListeners();
   }
+
+  //TODO: Refresh method
 }
