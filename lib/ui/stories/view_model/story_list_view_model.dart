@@ -14,6 +14,8 @@ final class StoryListViewModel extends ChangeNotifier {
   }
 
   List<Story> storyList = [];
+  final Set<int> _newlyLoadedIds = {};
+  int _previousStoryListLength = 0;
 
   int currentPage = 0;
   bool hasMore = true;
@@ -33,6 +35,9 @@ final class StoryListViewModel extends ChangeNotifier {
         if (result.value.isEmpty) {
           hasMore = false;
         } else {
+          _previousStoryListLength = storyList.length;
+          _newlyLoadedIds.addAll(result.value.map((story) => story.id));
+
           storyList.addAll(result.value);
           currentPage++;
           hasMore = storyRepository.hasMoreStories(currentPage);
@@ -46,6 +51,14 @@ final class StoryListViewModel extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  bool isNewStory(final int storyId) => _newlyLoadedIds.contains(storyId);
+
+  int getNewStoryIndex(final int storyId) {
+    final newStories = storyList.skip(_previousStoryListLength).toList();
+    return newStories.indexWhere((story) => story.id == storyId);
+  }
+
 
   //TODO: Refresh method
 }

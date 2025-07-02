@@ -54,14 +54,41 @@ class StoryList extends StatelessWidget {
       separatorBuilder: (context, index) => const SizedBox(height: 20),
       itemBuilder: (_, index) {
         if (index == storyList.length - 1 && viewModel.state is StoryListLoadingMore) {
-          return CircularProgressIndicator.adaptive(backgroundColor: context.colorPrimary);
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Center(child: CircularProgressIndicator.adaptive(backgroundColor: context.colorPrimary)),
+          );
         }
+
         if (index == storyList.length - 1 &&
             viewModel.hasMore &&
             viewModel.state is! StoryListLoadingMore) {
           WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.loadTopStories());
         }
-        return StoryCard(story: storyList[index]);
+
+        final story = storyList[index];
+        final isNew = viewModel.isNewStory(story.id);
+
+        if (!isNew) {
+          return StoryCard(story: story);
+        }
+
+        final newItemIndex = viewModel.getNewStoryIndex(story.id);
+
+        return TweenAnimationBuilder<double>(
+          duration: Duration(milliseconds: 500 + (newItemIndex * 100)),
+          tween: Tween(begin: 0.0, end: 1.0),
+          curve: Curves.easeOutCubic,
+          builder: (context, value, _) {
+            return Transform.translate(
+              offset: Offset(0, 30 * (1 - value)),
+              child: Opacity(
+                opacity: value,
+                child: StoryCard(story: story),
+              ),
+            );
+          },
+        );
       },
     );
   }
